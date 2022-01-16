@@ -6,6 +6,7 @@ require (
 	cloud.google.com/go/firestore v1.6.1
 	firebase.google.com/go v3.13.0+incompatible
 	github.com/google/uuid v1.1.2
+	github.com/robfig/cron/v3 v3.0.1
 	golang.org/x/mod v0.4.2
 	golang.org/x/oauth2 v0.0.0-20211005180243-6b3c2da341f1
 	google.golang.org/api v0.59.0
