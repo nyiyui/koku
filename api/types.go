@@ -62,6 +62,17 @@ type Timeframe struct {
 // URL fulfills Data.
 func (t Timeframe) URL(_ *Client) *url.URL { return nil }
 
+// BlogPost represents a blog post.
+type BlogPost struct {
+	ID           uint      `json:"id"`
+	Author       User      `json:"author"`
+	Tags         []Tag     `json:"tags"`
+	Created      time.Time `json:"created_date"`
+	LastModified time.Time `json:"last_modified_date"`
+	Title        string    `json:"title"`
+	Body         string    `json:"body"`
+}
+
 // Ann represents an announcement.
 // Model: core.models.post.Announcement
 // Serializer: core.api.serializers.announcement.AnnouncementSerializer

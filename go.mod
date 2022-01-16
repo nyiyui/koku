@@ -3,8 +3,9 @@ module nyiyui.ca/koku
 go 1.17
 
 require (
+	cloud.google.com/go/firestore v1.6.1
 	firebase.google.com/go v3.13.0+incompatible
-	github.com/r3labs/sse v0.0.0-20210224172625-26fe804710bc
+	github.com/google/uuid v1.1.2
 	golang.org/x/mod v0.4.2
 	golang.org/x/oauth2 v0.0.0-20211005180243-6b3c2da341f1
 	google.golang.org/api v0.59.0
@@ -12,7 +13,6 @@ require (
 
 require (
 	cloud.google.com/go v0.97.0 // indirect
-	cloud.google.com/go/firestore v1.6.1 // indirect
 	cloud.google.com/go/storage v1.10.0 // indirect
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
@@ -27,5 +27,4 @@ require (
 	google.golang.org/genproto v0.0.0-20211028162531-8db9c33dc351 // indirect
 	google.golang.org/grpc v1.40.0 // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
-	gopkg.in/cenkalti/backoff.v1 v1.1.0 // indirect
 )
