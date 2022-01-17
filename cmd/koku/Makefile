@@ -6,7 +6,7 @@ test:
 
 prod:
 	go run main.go \
-		--credentials ../../secrets/credentials.json \
-		--config ../../secrets/config.json
+		--credentials ../../secrets/credentials2.json \
+		--config ../../secrets/config2.json
 
 .PHONY: test prod

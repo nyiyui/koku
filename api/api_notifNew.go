@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"time"
 )
 
 var notifNewURL, _ = url.Parse("notifications/new")
@@ -16,7 +17,22 @@ var notifNewURL, _ = url.Parse("notifications/new")
 // NotifNewResp is the response for the data from the announcement changes stream.
 type NotifNewResp interface{}
 
-// NotifNew forwards ann changes to ch.
+const delay = time.Second * 5
+
+// NotifNewForever starts a goroutine that forwards notif changes to ch forever.
+func NotifNewForever(cl *Client, ch chan<- NotifNewResp, errs chan<- error) {
+	for {
+		ch2 := make(chan NotifNewResp)
+		go NotifNew(cl, ch2, errs)
+		for resp := range ch2 {
+			ch <- resp
+		}
+		errs <- fmt.Errorf("NotifNew ended")
+		time.Sleep(delay)
+	}
+}
+
+// NotifNew starts a goroutine that forwards notif changes to ch.
 func NotifNew(cl *Client, ch chan<- NotifNewResp, errs chan<- error) {
 	defer close(ch)
 	request, err := http.NewRequest(http.MethodGet, cl.BaseURL().ResolveReference(notifNewURL).String(), nil)
