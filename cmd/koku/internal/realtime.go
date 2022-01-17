@@ -32,6 +32,29 @@ func setupRealtime(ctx context.Context, apiCl *api.Client, app *firebase.App) (e
 	go events(apiCl, notifCh, errs)
 	go sendOnCh(client, notifCh, errs, d)
 	go heartbeat(notifCh, errs)
+	testUser := api.User{
+		Username:  "koku",
+		FirstName: "Koku",
+		LastName:  "Test",
+		Bio:       "bio",
+		Timezone:  "timezone",
+	}
+	var notif api.NotifNewResp = api.Ann{
+		ID:     0,
+		Author: testUser,
+		Org: api.Org{
+			ID:    -1,
+			Owner: testUser,
+		},
+		Tags: []api.Tag{
+			{ID: 1, Name: "tag1", Color: "#ffffff"},
+			{ID: 2, Name: "tag2", Color: "#000000"},
+		},
+		Title:  "Test Public Announcement",
+		Body:   "This is a test announcement.",
+		Public: true,
+	}
+	go forever(notif, notifCh, errs)
 	if err != nil {
 		err = fmt.Errorf("api: %w", err)
 		return
@@ -52,6 +75,15 @@ func heartbeat(ch chan<- api.NotifNewResp, errs chan<- error) {
 	ch <- Heartbeat{Time: time.Now()}
 	c.AddFunc("* * * * *", func() {
 		ch <- Heartbeat{Time: time.Now()}
+	})
+	c.Start()
+}
+
+func forever(resp api.NotifNewResp, ch chan<- api.NotifNewResp, errs chan<- error) {
+	c := cron.New()
+	ch <- resp
+	c.AddFunc("* * * * *", func() {
+		ch <- resp
 	})
 	c.Start()
 }
